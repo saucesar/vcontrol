@@ -25,7 +25,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 	Route::resource('company', CompanyController::class);
-	Route::resource('products', ProductController::class);
+	Route::resource('products', ProductController::class)->except(['create', 'edit']);
 
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
