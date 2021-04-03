@@ -108,7 +108,14 @@
                         </ul>
                     </div>
                 </li>
-
+                @if(auth()->user()->isOwner())
+                <li class="nav-item {{ !($active == 'company') ? : 'active' }}">
+                    <a class="nav-link" href="{{ route('company.index') }}">
+                        <i class="ni ni-building"></i>
+                        {{ __('Empresa') }}
+                    </a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
