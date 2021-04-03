@@ -3,6 +3,7 @@
         <div class="header-body">
             <div class="text-center">
                 <h2>Produtos</h2>
+                <h3>{{ $product->description ?? '' }}</h3>
             </div>
         </div>
     </div>
