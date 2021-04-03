@@ -13,6 +13,7 @@ class CreateProductsTable extends Migration
             $table->string('ean')->unique();
             $table->string('description');
             $table->integer('company_id')->foreign('company_id')->references('id')->on('companies');
+            $table->integer('category_id')->foreign('category_id')->references('id')->on('categories');
             $table->softDeletes();
             $table->timestamps();
         });
