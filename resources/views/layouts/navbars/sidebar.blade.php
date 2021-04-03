@@ -78,29 +78,33 @@
             </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item {{ !($active == 'dashboard') ? : 'active' }}">
                     <a class="nav-link" href="{{ route('home') }}">
                         <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
+                    <a class="nav-link" href="#navbar-account" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-account">
+                        <i class="ni ni-circle-08"></i>
+                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Conta') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-examples">
+                    <div class="collapse {{ !($active == 'profile') ?: 'show' }} {{ !($active == 'manager')  ?: 'show' }}" id="navbar-account">
                         <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
+                            <li class="nav-item {{ !($active == 'profile') ? : 'active' }}">
                                 <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
+                                    <i class="ni ni-single-02"></i>
+                                    {{ __('Perfil') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            @if(auth()->user()->isOwner())
+                            <li class="nav-item {{ !($active == 'manager') ? : 'active' }}">
                                 <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('User Management') }}
+                                    <i class="fas fa-users-cog"></i>
+                                    {{ __('Gestão') }}
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                 </li>
