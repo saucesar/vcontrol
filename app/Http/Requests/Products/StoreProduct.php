@@ -15,7 +15,7 @@ class StoreProduct extends FormRequest
     {
         return [
             'description' => 'required|min:5|string',
-            'ean' => 'required|size:13|numeric',
+            'ean' => 'required|digits:13|unique:products',
         ];
     }
 }
