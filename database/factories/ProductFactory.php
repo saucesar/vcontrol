@@ -15,6 +15,7 @@ class ProductFactory extends Factory
             'ean' => "{$this->faker->numberBetween(100000, 999999)}{$this->faker->numberBetween(1000009, 9999999)}",
             'description' => $this->faker->text(32),
             'company_id' => $this->faker->numberBetween(1, \App\Models\Company::count()),
+            'category_id' => $this->faker->numberBetween(1, \App\Models\Category::count()),
         ];
     }
 }

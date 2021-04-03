@@ -10,11 +10,16 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['ean', 'description', 'company_id'];
+    protected $fillable = ['ean', 'description', 'company_id', 'category_id'];
 
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public static function byCompany(int $companyId, int $perPage = 0)
