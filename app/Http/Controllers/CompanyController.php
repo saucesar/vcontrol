@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     public function index()
     {
-        $data = [
-            'products' => Product::byCompany(auth()->user()->company->id, 10),
-        ];
-
-        return view('company.index', $data);
+        return view('company.index');
     }
 
     /**
