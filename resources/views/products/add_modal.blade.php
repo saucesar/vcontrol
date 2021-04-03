@@ -7,7 +7,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="" method="post">
+      <form action="{{ route('products.store') }}" method="post">
+        @csrf
+        <input type="hidden" name="modalName" value="{{ $modalId }}">
         <div class="modal-body">
             @include('products.form')
         </div>
@@ -19,3 +21,14 @@
     </div>
   </div>
 </div>
+@push('head_scripts')
+    @if($errors->any())
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#{{ old('modalName') }}").modal('show');
+        });
+    </script>
+    @endif
+@endpush
