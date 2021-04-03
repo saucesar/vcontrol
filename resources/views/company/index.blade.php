@@ -16,6 +16,17 @@
                         @include('company.products_info')
                     </div>
                 </div>
+                <div class="d-flex justify-content-start">
+                    {{ $products->links() }}
+                </div>
+                <div class="card-deck">
+                @foreach($products as $product)
+                    @include('products.card', ['product' => $product])
+                @endforeach
+                </div>
+                <div class="d-flex justify-content-start">
+                    {{ $products->links() }}
+                </div>
             </div>
         </div>
     </div>
