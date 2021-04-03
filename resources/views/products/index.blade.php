@@ -16,8 +16,16 @@
                     </div>
                     <div class="col"></div>
                 </div>
-                <div class="d-flex justify-content-start">
-                    {{ $products->links() }}
+                <div class="d-flex justify-content-between">
+                    <div>{{ $products->links() }}</div>
+                    <div>
+                    @if(auth()->user()->isOwner())
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
+                            <i class="ni ni-fat-add"></i>
+                        </button>
+                        @include('products.add_modal', ['modalId' => 'modalAddProduct'])
+                    @endif
+                    </div>
                 </div>
                 <div class="card-deck">
                 @foreach($products as $product)
