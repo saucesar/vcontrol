@@ -22,6 +22,7 @@
 
         <link type="text/css" href="{{ asset('assets') }}/css/style.css" rel="stylesheet"><!--
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">-->
+        @stack('head_scripts')
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()
