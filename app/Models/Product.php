@@ -16,4 +16,11 @@ class Product extends Model
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
+
+    public static function byCompany(int $companyId, int $perPage = 0)
+    {
+        $products = Product::where('company_id', $companyId);
+
+        return $perPage > 0 ? $products->paginate($perPage) : $products->get();
+    }
 }
