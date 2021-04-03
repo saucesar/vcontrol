@@ -13,7 +13,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => "Company {$this->faker->name()}",
-            'cnpj' => "11.112.333/0034-{$this->faker->numberBetween(10, 99)}",
+            'cnpj' => "11.112.333/{$this->faker->numberBetween(1000, 9999)}-{$this->faker->numberBetween(10, 99)}",
             'owner_id' => $this->faker->numberBetween(1, \App\Models\User::count()),
         ];
     }
