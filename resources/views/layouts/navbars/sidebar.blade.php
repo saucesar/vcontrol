@@ -116,6 +116,12 @@
                     </a>
                 </li>
                 @endif
+                <li class="nav-item {{ !($active == 'products') ? : 'active' }}">
+                    <a class="nav-link" href="{{ route('products.index') }}">
+                        <i class="ni ni-building"></i>
+                        {{ __('Produtos') }}
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
