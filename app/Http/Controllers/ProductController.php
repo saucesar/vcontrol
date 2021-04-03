@@ -2,61 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Products\StoreProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        !$request->perPage ? : session()->put('products.perPage', $request->perPage);
+        $perPage = session('products.perPage', 10);
+        
         $data = [
-            'products' => Product::byCompany(auth()->user()->company->id, 10),
+            'products' => Product::byCompany(auth()->user()->company->id, $perPage),
         ];
 
         return view('products.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(StoreProduct $request)
     {
-        //
+        $data = $request->only(['ean', 'description']);
+        $data['company_id'] = auth()->user()->company->id;
+
+        $product = Product::create($data);
+        if(isset($product)) {
+            return back()->with('success', 'Produto adicionado!');
+        } else {
+            return back()->with('error', 'Falha ao salvar produto!');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $product = Product::find($id);
+        if(isset($product)) {
+            $data = [
+                'product' => $product,
+            ];
+    
+            return view('products.show', $data);
+        }
     }
 
     /**

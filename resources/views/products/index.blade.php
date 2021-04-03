@@ -3,10 +3,6 @@
 @section('content')
     @include('products.header')
     <div class="container-fluid mt--7">
-        <div class="d-flex justify-content-center">
-            @include('components.alerts.error')
-            @include('components.alerts.success')
-        </div>
         <div class="row">
             <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="row">
@@ -15,6 +11,10 @@
                         @include('products.info')
                     </div>
                     <div class="col"></div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    @include('components.alerts.error')
+                    @include('components.alerts.success')
                 </div>
                 <div class="d-flex justify-content-between">
                     <div>{{ $products->links() }}</div>
@@ -25,6 +25,7 @@
                         </button>
                         @include('products.add_modal', ['modalId' => 'modalAddProduct'])
                     @endif
+                    @include('components.per_page', ['route' => route('products.index')])
                     </div>
                 </div>
                 <div class="card-deck">
