@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Products\StoreProduct;
+use App\Http\Requests\Products\UpdateProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -36,35 +37,39 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
+
         if(isset($product)) {
             $data = [
                 'product' => $product,
             ];
     
             return view('products.show', $data);
+        } else {
+            return back()->with('error', 'Produto não encotrado!');
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateProduct $request, $id)
     {
-        //
+        $product = Product::find($id);
+        
+        if(isset($product)) {
+            $product->update($request->only('ean', 'description'));
+            return back()->with('success', 'Produto atualizado!');
+        } else {
+            return back()->with('error', 'Produto não encotrado!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+
+        if(isset($product)) {
+            $product->delete();
+            return redirect()->route('products.index')->with('success', 'Produto deletado!');
+        } else {
+            return back()->with('error', 'Produto não encotrado!');
+        }
     }
 }
