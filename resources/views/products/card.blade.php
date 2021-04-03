@@ -2,8 +2,10 @@
     <div class="card-body">
         <div class="row">
             <div class="col">
-                <h5 class="card-title text-uppercase text-muted mb-0">{{ $product->description }}</h5>
-                <span class="h2 font-weight-bold mb-0">{{ $product->ean }}</span>
+                <a href="{{ route('products.show', $product->id) }}">
+                    <h5 class="card-title text-uppercase text-muted mb-0">{{ $product->description }}</h5>
+                    <span class="h2 font-weight-bold mb-0">{{ $product->ean }}</span>
+                </a>
             </div>
             <div class="col-auto">
                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
