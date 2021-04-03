@@ -20,7 +20,7 @@
                     <div>{{ $products->links() }}</div>
                     <div>
                     @if(auth()->user()->isOwner())
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddProduct" title="Adicionar um Produto.">
                             <i class="ni ni-fat-add"></i>
                         </button>
                         @include('products.add_modal', ['modalId' => 'modalAddProduct'])
