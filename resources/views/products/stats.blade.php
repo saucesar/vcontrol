@@ -43,26 +43,6 @@
         </div>
     </div>
     <div class="col">
-        <div class="card">
-            <div class="card-header">
-                <h3>Ações</h3>
-            </div>
-            <div class="card_body">
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditProduct{{ $product->id }}" title="Editar um Produto.">
-                            <i class="fas fa-pen"></i>
-                        </button>
-                        @include('products.edit_modal', ['modalId' => "modalEditProduct$product->id", 'product' => $product])
-                    </div>
-                    <div class="col">
-                        <form action="{{ route('products.destroy', $product->id) }}" method="post">
-                            @csrf
-                            @method('delete')
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('products.actions')
     </div>
 </div>
