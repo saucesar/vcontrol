@@ -10,8 +10,8 @@ class CreateCategoryEmailsTable extends Migration
     {
         Schema::create('category_emails', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id')->foreign('category_id')->references('id')->on('categories');
-            $table->integer('email_id')->foreign('email_id')->references('id')->on('emails');
+            $table->integer('category_id', false, true)->foreign('category_id')->references('id')->on('categories');
+            $table->integer('email_id', false, true)->foreign('email_id')->references('id')->on('emails');
             $table->timestamps();
         });
     }
