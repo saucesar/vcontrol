@@ -29,7 +29,7 @@ class Product extends Model
 
     public function historic(int $perPage = 0)
     {
-        $historic = Date::where('product_id', '=', $this->id)->where('deleted_at', '<>', null)->withTrashed();
+        $historic = Date::where('product_id', '=', $this->id)->where('deleted_at', '<>', null)->orderBy('deleted_at', 'DESC')->withTrashed();
         return $perPage > 0 ? $historic->paginate($perPage) : $historic->get();
     }
 
