@@ -1,5 +1,5 @@
 <div class="modal fade" id="{{ $modalId }}" tabindex="-1" role="dialog" aria-labelledby="{{ $modalId }}Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="{{ $modalId }}Label">Editar Categoria</h5>
@@ -12,7 +12,7 @@
         @method('put')
         <input type="hidden" name="modalName" value="{{ $modalId }}">
         <div class="modal-body">
-            @include('categories.form', ['name' => $category->name])
+            @include('categories.form', ['name' => $category->name, 'categoryEmails' => $category->emails->pluck('id')->toArray()])
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

@@ -22,6 +22,11 @@ class Category extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
+    public function emails()
+    {
+        return $this->belongsToMany(Email::class, 'category_emails');
+    }
+
     public static function byCompany(int $companyId, int $perPage = 0)
     {
         $categories = Category::where('company_id', $companyId);

@@ -31,7 +31,7 @@
             </div>
         </td>
     </tr>
-    @include('categories.edit_modal', ['modalId' => "modalEditCategory$category->id", 'category' => $category])
+    @include('categories.edit_modal', ['modalId' => "modalEditCategory$category->id", 'category' => $category, 'emails' => $emails])
     @endforeach
     </tbody>
 </table>

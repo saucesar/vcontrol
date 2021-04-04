@@ -18,7 +18,7 @@
                                 title="Adicionar uma categoria." @if(!auth()->user()->isOwner()) disabled @endif>
                             <i class="ni ni-fat-add"></i>
                         </button>
-                        @include('categories.add_modal', ['modalId' => 'modalAddCategory'])
+                        @include('categories.add_modal', ['modalId' => 'modalAddCategory', 'emails' => $emails])
                     @endif
                     @include('components.per_page', ['route' => route('categories.index'), 'values' => [5, 10, 15, 20]])
                     </div>
@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="card card-body shadow-lg">
-                            @include('categories.table', ['categories' => $categories])
+                            @include('categories.table', ['categories' => $categories, 'emails' => $emails])
                         </div>
                     </div>
                 </div>
