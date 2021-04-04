@@ -2,13 +2,16 @@
     <thead class="thead-light">
         <th>Nome</th>
         <th>Email</th>
+        @if(!isset($notActions))
         <th class="text-center">Ações</th>
+        @endif
     </thead>
     <tbody>
     @foreach($emails as $mail)
     <tr>
         <td>{{ $mail->name }}</td>
         <td>{{ $mail->email }}</td>
+        @if(!isset($notActions))
         <td>
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditEmail{{ $mail->id }}"
@@ -25,6 +28,7 @@
                 </form>
             </div>
         </td>
+        @endif
     </tr>
     @include('emails.edit_modal', ['modalId' => "modalEditEmail$mail->id", 'mail' => $mail])
     @endforeach
