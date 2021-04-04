@@ -25,7 +25,12 @@ class Product extends Model
     public static function byCompany(int $companyId, int $perPage = 0)
     {
         $products = Product::where('company_id', $companyId);
+        return $perPage > 0 ? $products->paginate($perPage) : $products->get();
+    }
 
+    public static function byCategory(int $categoryId, int $perPage = 0)
+    {
+        $products = Product::where('category_id', $categoryId);
         return $perPage > 0 ? $products->paginate($perPage) : $products->get();
     }
 }
