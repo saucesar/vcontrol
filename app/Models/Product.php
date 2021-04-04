@@ -22,6 +22,17 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id')->withTrashed();
     }
 
+    public function dates()
+    {
+        return $this->hasMany(Date::class, 'product_id', 'id')->orderBy('date');
+    }
+
+    public function historic(int $perPage = 0)
+    {
+        $historic = Date::where('product_id', '=', $this->id)->where('deleted_at', '<>', null)->withTrashed();
+        return $perPage > 0 ? $historic->paginate($perPage) : $historic->get();
+    }
+
     public static function byCompany(int $companyId, int $perPage = 0)
     {
         $products = Product::where('company_id', $companyId);
