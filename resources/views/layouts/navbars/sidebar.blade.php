@@ -122,6 +122,13 @@
                         {{ __('Produtos') }}
                     </a>
                 </li>
+                <li class="nav-item {{ !($active == 'categories') ? : 'active' }}">
+                    <a class="nav-link" href="{{ route('categories.index') }}">
+                        <i class="ni ni-building"></i>
+                        {{ __('Categorias') }}
+                    </a>
+                </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
@@ -147,13 +154,13 @@
                     <a class="nav-link text-white" href="https://www.creative-tim.com/product/argon-dashboard-pro-laravel" target="_blank">
                         <i class="ni ni-cloud-download-95"></i> Upgrade to PRO
                     </a>
-                </li>
+                </li>-->
             </ul>
             <!-- Divider -->
             <hr class="my-3">
-            <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Documentation</h6>
-            <!-- Navigation -->
+            <!-- Heading 
+            <h6 class="navbar-heading text-muted">Documentation</h6>--> 
+            <!-- Navigation
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
                     <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">
@@ -170,7 +177,7 @@
                         <i class="ni ni-ui-04"></i> Components
                     </a>
                 </li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 </nav>
