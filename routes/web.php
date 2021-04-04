@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DateController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('products', ProductController::class)->except(['create', 'edit']);
 	Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 	Route::resource('emails', EmailController::class)->except(['create', 'show', 'edit']);
+	Route::resource('dates', DateController::class)->except(['index', 'create', 'show', 'edit']);
 
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
