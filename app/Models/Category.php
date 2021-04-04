@@ -21,4 +21,10 @@ class Category extends Model
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
+
+    public static function byCompany(int $companyId, int $perPage = 0)
+    {
+        $categories = Category::where('company_id', $companyId);
+        return $perPage > 0 ? $categories->paginate($perPage) : $categories->get();
+    }
 }
