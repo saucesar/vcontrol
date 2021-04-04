@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             EmailSeeder::class,
             CategoryEmailSeeder::class,
             ReasonSeeder::class,
+            DateSeeder::class,
         ]);
     }
 }
