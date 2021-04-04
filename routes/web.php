@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 	Route::resource('company', CompanyController::class);
 	Route::resource('products', ProductController::class)->except(['create', 'edit']);
+	Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
