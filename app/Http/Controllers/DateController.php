@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Dates\StoreDate;
+use App\Http\Requests\Dates\UpdateDate;
 use App\Models\Date;
 use Illuminate\Http\Request;
 
@@ -19,9 +20,27 @@ class DateController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateDate $request, $id)
     {
-        //
+        $oldDate = Date::find($id);
+
+        if(isset($oldDate)) {
+            $data = $request->only(['amount', 'lote', 'reason_id']);
+            $data['date'] = $oldDate->date;
+            $data['previous_id'] = $oldDate->id;
+            $data['product_id'] = $oldDate->product_id;
+            
+            $newDate = Date::create($data);
+            
+            if(isset($newDate)) {
+                $oldDate->delete();
+                return back()->with('success', 'Data atualizada!');
+            } else {
+                return back()->with('error', 'Erro ao atualizar data!');
+            }
+        } else {
+            return back()->with('error', 'Data não encontrada!');
+        }
     }
 
     public function destroy($id)
