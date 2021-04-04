@@ -1,4 +1,4 @@
-<label for="password">{{ $label }}</label>
+<label for="{{ $name }}">{{ $label }}</label>
 @if(isset($prepend))
 <div class="input-group mb-2">
     <div class="input-group-prepend">
