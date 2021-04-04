@@ -3,7 +3,9 @@
         <th>Data</th>
         <th>Quant.</th>
         <th>Lote</th>
-        @if(!isset($noActions))
+        @if(isset($noActions))
+        <th>Motivo</th>
+        @else
         <th class="text-center">Ações</th>
         @endif
     </thead>
@@ -13,7 +15,9 @@
             <td>{{ $date->date() }}</td>
             <td>{{ $date->amount }}</td>
             <td>{{ $date->lote }}</td>
-            @if(!isset($noActions))
+            @if(isset($noActions))
+            <td>{{ $date->reason->name }}</td>
+            @else
             <td>
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditDate{{ $date->id }}"
@@ -30,6 +34,7 @@
                     </form>
                 </div>
             </td>
+            @include('dates.edit_modal', ['modalId' => "modalEditDate$date->id", 'date' => $date])
             @endif
         </tr>
         @endforeach
