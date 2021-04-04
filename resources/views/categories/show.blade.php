@@ -5,7 +5,14 @@
     <div class="container-fluid mt--7 card card-body bg-secondary">
         <div class="row">
             <div class="col-xl-12 mb-5 mb-xl-0">
-                @include('categories.stats')
+                <div class="row">           
+                    <div class="col">
+                        @include('categories.stats')
+                    </div>     
+                    <div class="col">
+                        @include('categories.actions')
+                    </div>
+                </div>
                 <div class="d-flex justify-content-center">
                     @include('components.alerts.error')
                     @include('components.alerts.success')
