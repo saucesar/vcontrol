@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between">
             <h3>{{ $title }}</h3>
             @if(!isset($noActions))
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddDate"
+            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddDate"
                     title="Adicionar uma categoria." @if(auth()->user()->status != 'granted') disabled @endif>
                 <i class="ni ni-fat-add"></i>
             </button>
