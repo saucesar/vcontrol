@@ -8,10 +8,10 @@
             <a class="dropdown-item" href="{{ $route }}?perPage={{ $value }}">{{ $value }} por Página</a>
             @endforeach
         @else
-            <a class="dropdown-item" href="{{ $route }}?perPage=4">04 por Página</a>
-            <a class="dropdown-item" href="{{ $route }}?perPage=10">10 por Página</a>
-            <a class="dropdown-item" href="{{ $route }}?perPage=16">16 por Página</a>
-            <a class="dropdown-item" href="{{ $route }}?perPage=30">30 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=4">4 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=8">8 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=12">12 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=20">20 por Página</a>
         @endif
     </div>
 </div>
