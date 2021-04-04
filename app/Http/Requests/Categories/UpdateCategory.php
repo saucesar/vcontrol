@@ -16,6 +16,7 @@ class UpdateCategory extends FormRequest
     {
         return [
             'name' => ['required','min:5', Rule::unique('categories')->ignore($this->route()->parameters['category'])],
+            'emails' => 'required|array|min:1',
         ];
     }
 }

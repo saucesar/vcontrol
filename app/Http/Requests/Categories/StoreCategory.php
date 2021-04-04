@@ -15,6 +15,7 @@ class StoreCategory extends FormRequest
     {
         return [
             'name' => 'required|min:5|unique:categories',
+            'emails' => 'required|array|min:1',
         ];
     }
 }
