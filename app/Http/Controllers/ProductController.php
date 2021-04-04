@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         !$request->perPage ? : session()->put('products.perPage', $request->perPage);
-        $perPage = session('products.perPage', 10);
+        $perPage = session('products.perPage', 4);
         
         $data = [
             'products' => Product::byCompany(auth()->user()->company->id, $perPage),

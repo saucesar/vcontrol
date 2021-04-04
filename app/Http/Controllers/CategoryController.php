@@ -47,7 +47,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         !$request->perPage ? : session()->put('products.perPage', $request->perPage);
-        $perPage = session('products.perPage', 10);
+        $perPage = session('products.perPage', 4);
 
         if(isset($category)) {
             $data = [
