@@ -9,13 +9,13 @@
                 </h5>
                 <div class="row">
                     <div class="col">
-                        <span class="h2 font-weight-bold mb-0" title="Codigo de barras">
+                        <span class="font-weight-bold mb-0" title="Codigo de barras">
                             <i class="fas fa-barcode"></i>
                             {{ $product->ean }}
                         </span>
                     </div>
                     <div class="col">
-                        <span class="h2 font-weight-bold mb-0" title="Categoria">
+                        <span class="font-weight-bold mb-0" title="Categoria">
                             <i class="ni ni-app"></i>
                             {{ $product->category->name }}
                         </span>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-auto">
-                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
                     <i class="fas fa-box"></i>
                 </div>
             </div>
