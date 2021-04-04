@@ -16,6 +16,7 @@ class StoreProduct extends FormRequest
         return [
             'description' => 'required|min:5|string',
             'ean' => 'required|digits:13|unique:products',
+            'category_id' => 'required|numeric|exists:categories,id',
         ];
     }
 }

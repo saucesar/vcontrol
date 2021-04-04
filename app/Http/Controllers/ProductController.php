@@ -16,6 +16,7 @@ class ProductController extends Controller
         
         $data = [
             'products' => Product::byCompany(auth()->user()->company->id, $perPage),
+            'categories' => auth()->user()->company->categories,
         ];
 
         return view('products.index', $data);
@@ -23,7 +24,7 @@ class ProductController extends Controller
 
     public function store(StoreProduct $request)
     {
-        $data = $request->only(['ean', 'description']);
+        $data = $request->only(['ean', 'description', 'category_id']);
         $data['company_id'] = auth()->user()->company->id;
 
         $product = Product::create($data);
@@ -41,6 +42,7 @@ class ProductController extends Controller
         if(isset($product)) {
             $data = [
                 'product' => $product,
+                'categories' => auth()->user()->company->categories,
             ];
     
             return view('products.show', $data);
@@ -54,7 +56,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         
         if(isset($product)) {
-            $product->update($request->only('ean', 'description'));
+            $product->update($request->only('ean', 'description', 'category_id'));
             return back()->with('success', 'Produto atualizado!');
         } else {
             return back()->with('error', 'Produto não encotrado!');

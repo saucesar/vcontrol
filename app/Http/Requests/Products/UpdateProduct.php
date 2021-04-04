@@ -17,6 +17,7 @@ class UpdateProduct extends FormRequest
         return [
             'description' => 'required|min:5|string',
             'ean' => ['required', 'digits:13', Rule::unique('products')->ignore($this->route()->parameters['product']),],
+            'category_id' => 'required|numeric|exists:categories,id',
         ];
     }
 }
