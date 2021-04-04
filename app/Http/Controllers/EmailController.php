@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Emails\StoreEmail;
+use App\Http\Requests\Emails\UpdateEmail;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
@@ -19,26 +21,21 @@ class EmailController extends Controller
         return view('emails.index', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreEmail $request)
     {
-        //
+        $data = $request->only(['name', 'email']);
+        $data['company_id'] = auth()->user()->company->id;
+
+        $email = Email::create($data);
+
+        if(isset($email)) {
+            return back()->with('success', 'Email adicionado!');
+        } else {
+            return back()->with('error', 'Falhas ao adicionar email!');
+        }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateEmail $request, $id)
     {
         //
     }
