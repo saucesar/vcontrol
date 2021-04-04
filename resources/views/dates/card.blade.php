@@ -1,6 +1,17 @@
 <div class="card">
     <div class="card-header">
-        <h3>{{ $title }}</h3>
+        <div class="d-flex justify-content-between">
+            <h3>{{ $title }}</h3>
+            @if(!isset($noActions))
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddDate"
+                    title="Adicionar uma categoria." @if(auth()->user()->status != 'granted') disabled @endif>
+                <i class="ni ni-fat-add"></i>
+            </button>
+            @endif
+        </div>
+        @if(!isset($noActions))
+            @include('dates.add_modal', ['modalId' => 'modalAddDate', 'productId' => $product->id])
+        @endif
     </div>
     <div class="card_body">
         @include('dates.table', ['dates' => $dates, 'noActions' => $noActions ?? null])

@@ -2,32 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Dates\StoreDate;
 use App\Models\Date;
 use Illuminate\Http\Request;
 
 class DateController extends Controller
 {
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreDate $request)
     {
-        //
+        $date = Date::create($request->only(['date', 'lote', 'amount', 'product_id']));
+
+        if(isset($date)) {
+            return back()->with('success', 'Data adicionada!');
+        } else {
+            return back()->with('error', 'Falha ao salvar data!');
+        }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
