@@ -14,24 +14,10 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Validades</h3>
-                    </div>
-                    <div class="card_body">
-                    
-                    </div>
-                </div>
+                @include('dates.card', ['dates' => $product->dates, 'title' => 'Validades'])
             </div>
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Historico</h3>
-                    </div>
-                    <div class="card_body">
-                    
-                    </div>
-                </div>
+                @include('dates.card', ['dates' => $product->historic(5), 'title' => 'Historico', 'noActions' => true])
             </div>
         </div>
     </div>
