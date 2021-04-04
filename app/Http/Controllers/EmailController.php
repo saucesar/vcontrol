@@ -37,17 +37,25 @@ class EmailController extends Controller
 
     public function update(UpdateEmail $request, $id)
     {
-        //
+        $email = Email::find($id);
+
+        if(isset($email)) {
+            $email->update($request->only('name', 'email'));
+            return back()->with('success', 'Email atualizado!');
+        } else {
+            return back()->with('error', 'Email não econtrado!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $email = Email::find($id);
+
+        if(isset($email)) {
+            $email->delete();
+            return back()->with('emails.index')->with('success', 'Email deletado!');
+        } else {
+            return back()->with('error', 'Email não econtrado!');
+        }
     }
 }
