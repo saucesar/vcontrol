@@ -119,6 +119,12 @@
                         {{ __('Empresa') }}
                     </a>
                 </li>
+                <li class="nav-item {{ !($active == 'emails') ? : 'active' }}">
+                    <a class="nav-link" href="{{ route('emails.index') }}">
+                        <i class="ni ni-email-83"></i>
+                        {{ __('Emails') }}
+                    </a>
+                </li>
                 @endif
                 <li class="nav-item {{ !($active == 'categories') ? : 'active' }}">
                     <a class="nav-link" href="{{ route('categories.index') }}">
