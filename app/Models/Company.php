@@ -26,4 +26,9 @@ class Company extends Model
     {
         return $this->hasMany(Category::class, 'company_id', 'id');
     }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class, 'company_id', 'id');
+    }
 }
