@@ -5,8 +5,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        <a class="navbar-brand pt-0" href="{{ route('home') }}"><!--
+            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">-->
+            <h2 class="text-left text-default">
+                <i class="fas fa-calendar-alt"></i>
+                VControl    
+            </h2>
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -116,16 +120,16 @@
                     </a>
                 </li>
                 @endif
-                <li class="nav-item {{ !($active == 'products') ? : 'active' }}">
-                    <a class="nav-link" href="{{ route('products.index') }}">
-                        <i class="ni ni-building"></i>
-                        {{ __('Produtos') }}
-                    </a>
-                </li>
                 <li class="nav-item {{ !($active == 'categories') ? : 'active' }}">
                     <a class="nav-link" href="{{ route('categories.index') }}">
-                        <i class="ni ni-building"></i>
+                        <i class="ni ni-books"></i>
                         {{ __('Categorias') }}
+                    </a>
+                </li>
+                <li class="nav-item {{ !($active == 'products') ? : 'active' }}">
+                    <a class="nav-link" href="{{ route('products.index') }}">
+                        <i class="ni ni-app"></i>
+                        {{ __('Produtos') }}
                     </a>
                 </li>
                 <!--

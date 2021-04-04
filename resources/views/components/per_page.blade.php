@@ -1,6 +1,6 @@
 <div class="dropdown">
-    <button class="btn btn-link" type="button" data-toggle="dropdown" title="{{ $title ?? '' }}">
-        <i class="fas fa-list"></i>
+    <button class="btn btn-info" type="button" data-toggle="dropdown" title="{{ $title ?? '' }}">
+        <i class="ni ni-bullet-list-67"></i>
     </button>
     <div class="dropdown-menu">
         @if(isset($values))

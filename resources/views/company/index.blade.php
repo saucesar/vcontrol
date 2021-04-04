@@ -2,7 +2,7 @@
 
 @section('content')
     @include('company.header')
-    <div class="container-fluid mt--7">
+    <div class="container-fluid mt--7 card card-body bg-secondary">
         <div class="d-flex justify-content-center">
             @include('components.alerts.error')
             @include('components.alerts.success')
