@@ -66,13 +66,18 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $category = Category::find($id);
 
         if(isset($category)) {
             $category->delete();
-            return back()->with('success', 'Categoria deletada!');
+            
+            if(isset($request->redirect)) {
+                return redirect()->route($request->redirect)->with('success', 'Categoria deletada!');
+            } else {
+                return back()->with('success', 'Categoria deletada!');
+            }
         } else {
             return back()->with('error', 'Categoria não encontrada!');
         }
