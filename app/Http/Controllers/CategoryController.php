@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Categories\StoreCategory;
 use App\Http\Requests\Categories\UpdateCategory;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -35,13 +36,17 @@ class CategoryController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $category = Category::find($id);
+
+        !$request->perPage ? : session()->put('products.perPage', $request->perPage);
+        $perPage = session('products.perPage', 10);
 
         if(isset($category)) {
             $data = [
                 'category' => $category,
+                'products' => Product::byCategory($id, $perPage),
             ];
             return view('categories.show', $data);
         } else {
