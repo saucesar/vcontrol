@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('type', ['owner', 'employee']);
             $table->enum('status', ['withoutCompany', 'granted', 'denied', 'blocked'])->default('withoutCompany');
+            $table->integer('company_id', false, true)->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
