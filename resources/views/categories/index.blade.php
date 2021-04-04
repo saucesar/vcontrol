@@ -14,7 +14,8 @@
                     <div>{{ $categories->links() }}</div>
                     <div>
                     @if(auth()->user()->isOwner())
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory" title="Adicionar uma categoria.">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory"
+                                title="Adicionar uma categoria." @if(!auth()->user()->isOwner()) disabled @endif>
                             <i class="ni ni-fat-add"></i>
                         </button>
                         @include('categories.add_modal', ['modalId' => 'modalAddCategory'])

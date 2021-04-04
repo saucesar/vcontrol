@@ -13,17 +13,18 @@
         <td class="text-center">{{ $category->products->count() }}</td>
         <td>
             <div class="d-flex justify-content-center">
-                <a class="btn btn-sm btn-info" href="{{ route('categories.show', $category->id) }}">
+                <a class="btn btn-sm btn-info" href="{{ route('categories.show', $category->id) }}" title="Detalhes da categoria.">
                     <i class="far fa-eye"></i>
                 </a>
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditCategory{{ $category->id }}"
-                        title="Editar um Produto." @if(!auth()->user()->isOwner()) disabled @endif >
+                        title="Editar categoria." @if(!auth()->user()->isOwner()) disabled @endif >
                     <i class="fas fa-pen"></i>
                 </button>
-                <form class="" action="{{ route('categories.destroy', $category->id) }}" method="post">
+                <form action="{{ route('categories.destroy', $category->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Tem certeza?');">
+                    <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Tem certeza?');"
+                            title="Deletar categoria."@if(!auth()->user()->isOwner()) disabled @endif>
                         <i class="fas fa-trash"></i>
                     </button>
                 </form>
