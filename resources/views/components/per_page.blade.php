@@ -3,9 +3,15 @@
         <i class="fas fa-list"></i>
     </button>
     <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ $route }}?perPage=4">04 por Página</a>
-        <a class="dropdown-item" href="{{ $route }}?perPage=10">10 por Página</a>
-        <a class="dropdown-item" href="{{ $route }}?perPage=16">16 por Página</a>
-        <a class="dropdown-item" href="{{ $route }}?perPage=30">30 por Página</a>
+        @if(isset($values))
+            @foreach($values as $value)
+            <a class="dropdown-item" href="{{ $route }}?perPage={{ $value }}">{{ $value }} por Página</a>
+            @endforeach
+        @else
+            <a class="dropdown-item" href="{{ $route }}?perPage=4">04 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=10">10 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=16">16 por Página</a>
+            <a class="dropdown-item" href="{{ $route }}?perPage=30">30 por Página</a>
+        @endif
     </div>
 </div>
