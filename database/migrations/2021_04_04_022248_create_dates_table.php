@@ -12,7 +12,7 @@ class CreateDatesTable extends Migration
             $table->id();
             $table->date('date');
             $table->integer('amount', false, true);
-            $table->string('lote');
+            $table->string('lote')->nullable();
             $table->integer('product_id', false, true)->foreign('product_id')->references('id')->on('products');
             $table->integer('previous_id', false, true)->nullable();
             $table->integer('reason_id', false, true)->nullable()->foreign('reason_id')->references('id')->on('reasons');
