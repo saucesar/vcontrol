@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Categories\StoreCategory;
+use App\Http\Requests\Categories\UpdateCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -19,48 +21,55 @@ class CategoryController extends Controller
         return view('categories.index', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
-        //
+        $data = $request->only('name');
+        $data['company_id'] = auth()->user()->company->id;
+
+        $category = Category::create($data);
+
+        if(isset($category)) {
+            return back()->with('success', 'Categoria adicionada!');
+        } else {
+            return back()->with('error', 'Falha ao criar categoria!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+
+        if(isset($category)) {
+            $data = [
+                'category' => $category,
+            ];
+            return view('categories.show', $data);
+        } else {
+            return back()->with('error', 'Categoria não encontrada!');
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateCategory $request, $id)
     {
-        //
+        $category = Category::find($id);
+
+        if(isset($category)) {
+            $category->update($request->only('name'));
+            return back()->with('success', 'Categoria atualizada!');
+        } else {
+            return back()->with('error', 'Categoria não encontrada!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+
+        if(isset($category)) {
+            $category->delete();
+            return back()->with('success', 'Categoria deletada!');
+        } else {
+            return back()->with('error', 'Categoria não encontrada!');
+        }
     }
 }
