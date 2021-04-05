@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card flex-fill">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h3>{{ $title }}</h3>
