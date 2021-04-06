@@ -51,6 +51,6 @@ class Product extends Model
                            ->where('company_id', $companyId)
                            ->orWhere('ean', 'ilike', "%$search%")
                            ->where('company_id', $companyId);
-        return $perPage > 0 ? $products->paginate($perPage) : $products->get();
+        return $perPage > 0 ? $products->paginate($perPage)->appends(['search' => $search]) : $products->get();
     }
 }
