@@ -10,16 +10,20 @@
                     @include('components.alerts.error')
                     @include('components.alerts.success')
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-2">
                     <div>{{ $emails->links() }}</div>
-                    <div>
+                    <div class="d-inline-flex">
                     @if(auth()->user()->isOwner())
+                    <div>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddEmail" title="Adicionar um Email.">
                             <i class="ni ni-fat-add"></i>
                         </button>
                         @include('emails.add_modal', ['modalId' => "modalAddEmail"])
+                    </div>
                     @endif
                     @include('components.per_page', ['route' => route('emails.index'), 'values' => [5, 10, 15, 20]])
+                    @include('components.clean_filters', ['route' => route('emails.index')])
+                    @include('components.search_form', ['route' => route('emails.search')])
                     </div>
                 </div>
                 <div class="row mb-2">

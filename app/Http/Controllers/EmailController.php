@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Emails\StoreEmail;
 use App\Http\Requests\Emails\UpdateEmail;
+use App\Http\Requests\SearchRequest;
 use App\Models\Email;
 use Illuminate\Http\Request;
 
@@ -57,5 +58,16 @@ class EmailController extends Controller
         } else {
             return back()->with('error', 'Email não econtrado!');
         }
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $perPage = session('email.perPage', 5);
+
+        $data = [
+            'emails' => Email::search($request->search, $perPage),
+        ];
+        
+        return view('emails.index', $data);
     }
 }

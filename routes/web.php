@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 	Route::resource('emails', EmailController::class)->except(['create', 'show', 'edit']);
 	Route::prefix('emails')->group(function(){
-		Route::post('to/search', [EmailController::class, 'search'])->name('emails.search');
+		Route::match(['get', 'post'],'to/search', [EmailController::class, 'search'])->name('emails.search');
 	});
 	Route::resource('dates', DateController::class)->except(['index', 'create', 'show', 'edit']);
 
