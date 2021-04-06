@@ -29,11 +29,17 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 	Route::resource('company', CompanyController::class);
 	Route::resource('products', ProductController::class)->except(['create', 'edit']);
+
 	Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
+	Route::prefix('categories')->group(function(){
+		Route::match(['get', 'post'],'to/search', [CategoryController::class, 'search'])->name('categories.search');
+	});
+
 	Route::resource('emails', EmailController::class)->except(['create', 'show', 'edit']);
 	Route::prefix('emails')->group(function(){
 		Route::match(['get', 'post'],'to/search', [EmailController::class, 'search'])->name('emails.search');
 	});
+
 	Route::resource('dates', DateController::class)->except(['index', 'create', 'show', 'edit']);
 
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);

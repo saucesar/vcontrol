@@ -10,20 +10,24 @@
                     @include('components.alerts.error')
                     @include('components.alerts.success')
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-2">
                     <div>{{ $categories->links() }}</div>
-                    <div>
+                    <div class="d-inline-flex">
                     @if(auth()->user()->isOwner())
+                    <div>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddCategory"
                                 title="Adicionar uma categoria." @if(!auth()->user()->isOwner()) disabled @endif>
                             <i class="ni ni-fat-add"></i>
                         </button>
                         @include('categories.add_modal', ['modalId' => 'modalAddCategory', 'emails' => $emails])
+                    </div>
                     @endif
                     @include('components.per_page', ['route' => route('categories.index'), 'values' => [5, 10, 15, 20]])
+                    @include('components.clean_filters', ['route' => route('categories.index')])
+                    @include('components.search_form', ['route' => route('categories.search')])
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col">
                         <div class="card card-body shadow-lg">
                             @include('categories.table', ['categories' => $categories, 'emails' => $emails])

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Categories\StoreCategory;
 use App\Http\Requests\Categories\UpdateCategory;
+use App\Http\Requests\SearchRequest;
 use App\Models\Category;
 use App\Models\CategoryEmail;
 use App\Models\Email;
@@ -98,5 +99,17 @@ class CategoryController extends Controller
         foreach($request->emails as $emailId) {
             CategoryEmail::create(['category_id' => $category->id, 'email_id' => $emailId]);
         }
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $perPage = session('categories.perPage', 5);
+        //dd($request->all());
+        $data = [
+            'categories' => Category::search($request->search, auth()->user()->company->id, $perPage),
+            'emails' => Email::byCompany(auth()->user()->company->id),
+        ];
+
+        return view('categories.index', $data);
     }
 }

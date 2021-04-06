@@ -32,4 +32,10 @@ class Category extends Model
         $categories = Category::where('company_id', $companyId);
         return $perPage > 0 ? $categories->paginate($perPage) : $categories->get();
     }
+
+    public static function search(string $search,int $companyId, int $perPage = 0)
+    {
+        $categories = Category::where('name', 'ilike', "%$search%")->where('company_id', $companyId);
+        return $perPage > 0 ? $categories->paginate($perPage)->appends(['search' => $search]) : $categories->get();
+    }
 }
