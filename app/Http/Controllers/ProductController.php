@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Products\StoreProduct;
 use App\Http\Requests\Products\UpdateProduct;
+use App\Models\Date;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -43,6 +44,7 @@ class ProductController extends Controller
             $data = [
                 'product' => $product,
                 'categories' => auth()->user()->company->categories,
+                'graphicData' => $this->getGraphicData($product),
             ];
     
             return view('products.show', $data);
@@ -73,5 +75,21 @@ class ProductController extends Controller
         } else {
             return back()->with('error', 'Produto não encotrado!');
         }
+    }
+
+    private function getGraphicData($product)
+    {
+        $data = [];
+
+        foreach($product->dates as $date) {
+            $data[$date->date] = [];
+            $oldDates = Date::where('date', '=', $date->date)->where('product_id', '=', $product->id)->withTrashed()->orderBy('created_at')->get();
+            
+            foreach($oldDates as $oldDate) {
+                $data[$date->date][] = ["$oldDate->date", $oldDate->amount, 'blue', "$oldDate->amount"];
+            }
+        }
+
+        return json_encode($data);
     }
 }
