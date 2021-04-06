@@ -28,7 +28,11 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 	Route::resource('company', CompanyController::class);
+	
 	Route::resource('products', ProductController::class)->except(['create', 'edit']);
+	Route::prefix('products')->group(function(){
+		Route::match(['get', 'post'],'to/search', [ProductController::class, 'search'])->name('products.search');
+	});
 
 	Route::resource('categories', CategoryController::class)->except(['create', 'edit']);
 	Route::prefix('categories')->group(function(){

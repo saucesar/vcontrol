@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Products\StoreProduct;
 use App\Http\Requests\Products\UpdateProduct;
+use App\Http\Requests\SearchRequest;
 use App\Models\Date;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -91,5 +92,17 @@ class ProductController extends Controller
         }
 
         return json_encode($data);
+    }
+
+    public function search(SearchRequest $request)
+    {
+        $perPage = session('products.perPage', 4);
+        
+        $data = [
+            'products' => Product::search($request->search, auth()->user()->company->id, $perPage),
+            'categories' => auth()->user()->company->categories,
+        ];
+
+        return view('products.index', $data);
     }
 }

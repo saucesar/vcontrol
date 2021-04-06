@@ -44,4 +44,13 @@ class Product extends Model
         $products = Product::where('category_id', $categoryId);
         return $perPage > 0 ? $products->paginate($perPage) : $products->get();
     }
+
+    public static function search(string $search, int $companyId, int $perPage = 0)
+    {
+        $products = Product::orWhere('description', 'ilike', "%$search%")
+                           ->where('company_id', $companyId)
+                           ->orWhere('ean', 'ilike', "%$search%")
+                           ->where('company_id', $companyId);
+        return $perPage > 0 ? $products->paginate($perPage) : $products->get();
+    }
 }

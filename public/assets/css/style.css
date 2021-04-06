@@ -1,4 +1,5 @@
 .card-sized {
     min-width: 23em;
+    max-width: 35em;
     min-height: 5em;
 }
