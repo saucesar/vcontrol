@@ -65,7 +65,7 @@ class EmailController extends Controller
         $perPage = session('email.perPage', 5);
 
         $data = [
-            'emails' => Email::search($request->search, $perPage),
+            'emails' => Email::search($request->search, auth()->user()->company->id, $perPage),
         ];
         
         return view('emails.index', $data);

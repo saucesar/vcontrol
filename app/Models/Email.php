@@ -23,12 +23,12 @@ class Email extends Model
         return $perPage > 0 ? $mails->paginate($perPage) : $mails->get();
     }
 
-    public static function search(string $search, int $perPage = 0)
+    public static function search(string $search, int $companyId, int $perPage = 0)
     {
         $mails = Email::orWhere('name', 'ilike', "%$search%")
-                      ->where('company_id', auth()->user()->company->id)
+                      ->where('company_id', $companyId)
                       ->orWhere('email', 'ilike', "%$search%")
-                      ->where('company_id', auth()->user()->company->id);
+                      ->where('company_id', $companyId);
         
         return $perPage > 0 ? $mails->paginate($perPage)->appends(['search' => $search]) : $mails->get();
     }
