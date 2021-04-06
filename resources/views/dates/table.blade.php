@@ -20,6 +20,10 @@
             @else
             <td>
                 <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalGraficDate{{ $date->id }}"
+                            title="Gráfico de evolução.">
+                        <i class="ni ni-chart-bar-32"></i>
+                    </button>
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditDate{{ $date->id }}"
                             title="Editar categoria." @if(!auth()->user()->isOwner()) disabled @endif >
                         <i class="fas fa-pen"></i>
@@ -35,6 +39,7 @@
                 </div>
             </td>
             @include('dates.edit_modal', ['modalId' => "modalEditDate$date->id", 'date' => $date])
+            @include('dates.graphic_modal', ['modalId' => "modalGraficDate$date->id", 'chartId' => "chartDate$date->id"])
             @endif
         </tr>
         @endforeach
