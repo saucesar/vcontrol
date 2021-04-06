@@ -16,7 +16,7 @@
                     </div>
                     <div class="col">
                         <span class="font-weight-bold mb-0" title="Categoria">
-                            <i class="ni ni-app"></i>
+                            <i class="ni ni-books"></i>
                             {{ $product->category->name }}
                         </span>
                     </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="col-auto">
                 <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                    <i class="fas fa-box"></i>
+                    <i class="ni ni-app"></i>
                 </div>
             </div>
         </div>
