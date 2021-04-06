@@ -19,7 +19,17 @@ class Email extends Model
 
     public static function byCompany(int $companyId, int $perPage = 0)
     {
-        $mails = Email::where('company_id', $companyId);
+        $mails = Email::where('company_id', '=', $companyId);
         return $perPage > 0 ? $mails->paginate($perPage) : $mails->get();
+    }
+
+    public static function search(string $search, int $perPage = 0)
+    {
+        $mails = Email::orWhere('name', 'ilike', "%$search%")
+                      ->where('company_id', auth()->user()->company->id)
+                      ->orWhere('email', 'ilike', "%$search%")
+                      ->where('company_id', auth()->user()->company->id);
+        
+        return $perPage > 0 ? $mails->paginate($perPage)->appends(['search' => $search]) : $mails->get();
     }
 }
