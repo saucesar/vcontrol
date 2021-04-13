@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Dates\StoreDate;
 use App\Http\Requests\Dates\UpdateDate;
 use App\Models\Date;
-use Illuminate\Http\Request;
 
 class DateController extends Controller
 {
     public function store(StoreDate $request)
     {
-        $date = Date::create($request->only(['date', 'lote', 'amount', 'product_id']));
+        $date = Date::create($request->only(['date', 'lote', 'amount', 'product_id', 'value']));
 
         if(isset($date)) {
             return back()->with('success', 'Data adicionada!');
@@ -27,8 +26,8 @@ class DateController extends Controller
         if(isset($oldDate)) {
             $data = $request->only(['amount', 'lote', 'reason_id']);
             $data['date'] = $oldDate->date;
-            $data['previous_id'] = $oldDate->id;
-            $data['product_id'] = $oldDate->product_id;
+            //$data['previous_id'] = $oldDate->id;
+            //$data['product_id'] = $oldDate->product_id;
             
             $newDate = Date::create($data);
             
