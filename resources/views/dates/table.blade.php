@@ -15,9 +15,7 @@
             <td>{{ $date->date() }}</td>
             <td>{{ $date->amount }}</td>
             <td>{{ $date->lote }}</td>
-            @if(isset($noActions))
-            <td>{{ $date->reason->name }}</td>
-            @else
+            @if(!isset($noActions))
             <td>
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalGraficDate{{ $date->id }}"
