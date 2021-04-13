@@ -14,6 +14,7 @@ class DateFactory extends Factory
         return [
             'date' => now()->addDays($this->faker->numberBetween(10, 40)),
             'amount' => $this->faker->numberBetween(100, 200),
+            'value' => $this->faker->numberBetween(100, 200),
             'lote' => $this->faker->text(10),
             'product_id' => $this->faker->numberBetween(1, \App\Models\Product::count()),
         ];

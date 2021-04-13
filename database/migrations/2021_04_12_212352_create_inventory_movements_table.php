@@ -12,9 +12,8 @@ class CreateInventoryMovementsTable extends Migration
             $table->id();
             $table->enum('type', ['in', 'out']);
             $table->integer('amount', false, true);
-            $table->unsignedDouble('value');
             $table->integer('date_id', false, true)->foreign('date_id')->references('id')->on('dates');
-            $table->integer('reason_id', false, true)->nullable()->foreign('reason_id')->references('id')->on('reasons');
+            $table->integer('reason_id', false, true)->foreign('reason_id')->references('id')->on('reasons');
             $table->timestamps();
         });
     }

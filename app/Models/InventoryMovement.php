@@ -9,7 +9,7 @@ class InventoryMovement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'amount', 'value', 'date_id', 'reason_id'];
+    protected $fillable = ['type', 'amount', 'date_id', 'reason_id'];
 
     public function date()
     {
