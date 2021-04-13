@@ -16,7 +16,7 @@ class UpdateDate extends FormRequest
     {
         return [
             'date' => 'required|after:today|date',
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:0',
             'lote' => 'nullable',
             'product_id' => 'required|exists:products,id',
             'reason_id' => 'required|exists:reasons,id',
