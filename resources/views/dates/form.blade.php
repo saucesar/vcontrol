@@ -1,5 +1,6 @@
 <div class="row mb-4">
     <input type="hidden" name="product_id" value="{{ $productId }}">
+    <input type="hidden" name="value" value="{{ $value }}">
     <div class="col">
         <label for="date">Data</label>
         <input class="form-control @error('date') is-invalid @enderror" type="date" name="date" value="{{ $date ?? now() }}" required>

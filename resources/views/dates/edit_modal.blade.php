@@ -12,7 +12,7 @@
         @method('put')
         <input type="hidden" name="modalName" value="{{ $modalId }}">
         <div class="modal-body">
-            @include('dates.form', ['productId' => $date->product_id, 'date' => $date->date, 'lote' => $date->lote, 'amount' => $date->amount, 'isEdit' => true])
+            @include('dates.form', ['productId' => $date->product_id, 'value' => $date->value, 'date' => $date->date, 'lote' => $date->lote, 'amount' => $date->amount, 'isEdit' => true])
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

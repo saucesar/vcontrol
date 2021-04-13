@@ -10,7 +10,7 @@
             @endif
         </div>
         @if(!isset($noActions))
-            @include('dates.add_modal', ['modalId' => 'modalAddDate', 'productId' => $product->id])
+            @include('dates.add_modal', ['modalId' => 'modalAddDate', 'productId' => $product->id, 'value' => $product->value])
         @endif
     </div>
     <div class="card_body">
