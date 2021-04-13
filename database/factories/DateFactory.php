@@ -16,8 +16,6 @@ class DateFactory extends Factory
             'amount' => $this->faker->numberBetween(100, 200),
             'lote' => $this->faker->text(10),
             'product_id' => $this->faker->numberBetween(1, \App\Models\Product::count()),
-            'previous_id' => null,
-            'reason_id' => 1,
         ];
     }
 }
