@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Dates\AddAmount;
+use App\Http\Requests\Dates\AmountRequest;
 use App\Http\Requests\Dates\StoreDate;
 use App\Http\Requests\Dates\UpdateDate;
 use App\Models\Date;
@@ -57,7 +57,7 @@ class DateController extends Controller
         }
     }
 
-    public function addAmount(AddAmount $request, $id)
+    public function addAmount(AmountRequest $request, $id)
     {
         $date = Date::find($id);
 
@@ -71,7 +71,7 @@ class DateController extends Controller
         }
     }
 
-    public function decreaseAmount(Request $request, $id)
+    public function decreaseAmount(AmountRequest $request, $id)
     {
         $date = Date::find($id);
         
