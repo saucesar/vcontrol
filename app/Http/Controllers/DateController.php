@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Dates\AddAmount;
 use App\Http\Requests\Dates\StoreDate;
 use App\Http\Requests\Dates\UpdateDate;
 use App\Models\Date;
+use App\Models\InventoryMovement;
+use Illuminate\Http\Request;
 
 class DateController extends Controller
 {
@@ -52,5 +55,38 @@ class DateController extends Controller
         } else {
             return back()->with('error', 'Data não encontrada!');
         }
+    }
+
+    public function addAmount(AddAmount $request, $id)
+    {
+        $date = Date::find($id);
+
+        if(isset($date)) {
+            $date->amount += $request->amount;
+            $date->save();
+            InventoryMovement::create(['type' => 'in', 'amount' => $request->amount, 'date_id' => $id, 'reason_id' => $request->reason_id]);
+            return back()->with('success', 'Data atualizada!');
+        } else {
+            return back()->with('error', 'Data não encontrada!');
+        }
+    }
+
+    public function decreaseAmount(Request $request, $id)
+    {
+        $date = Date::find($id);
+        
+        if(isset($date)) {
+            $date->amount -= $request->amount;
+            $date->save();
+            InventoryMovement::create(['type' => 'out', 'amount' => $request->amount, 'date_id' => $id, 'reason_id' => $request->reason_id]);
+            return back()->with('success', 'Data atualizada!');
+        } else {
+            return back()->with('error', 'Data não encontrada!');
+        }
+    }
+
+    public function undoneMovement(Request $request, $id)
+    {
+        dd($request->all(), $id);
     }
 }

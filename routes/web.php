@@ -45,6 +45,11 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 
 	Route::resource('dates', DateController::class)->except(['index', 'create', 'show', 'edit']);
+	Route::prefix('dates')->group(function(){
+		Route::post('add-amount/{date}',[DateController::class, 'addAmount'])->name('dates.addAmount');
+		Route::post('decr-amount/{date}',[DateController::class, 'decreaseAmount'])->name('dates.decrAmount');
+		Route::post('undone-movement/{movement}',[DateController::class, 'undoneMovement'])->name('dates.decrAmount');
+	});
 
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
