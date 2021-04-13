@@ -27,4 +27,9 @@ class Date extends Model
     {
         return $this->hasOne(Date::class, 'id', 'previous_id')->withTrashed();
     }
+
+    public function moviments()
+    {
+        return $this->hasMany(InventoryMovement::class, 'date_id', 'id');
+    }
 }
