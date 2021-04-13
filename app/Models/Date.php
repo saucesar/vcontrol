@@ -11,7 +11,7 @@ class Date extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['date', 'amount', 'lote', 'product_id', 'previous_id', 'reason_id'];
+    protected $fillable = ['date', 'amount', 'lote', 'product_id', 'previous_id'];
 
     public function date()
     {
@@ -26,10 +26,5 @@ class Date extends Model
     public function previous()
     {
         return $this->hasOne(Date::class, 'id', 'previous_id')->withTrashed();
-    }
-
-    public function reason()
-    {
-        return $this->hasOne(Reason::class, 'id', 'reason_id');
     }
 }
