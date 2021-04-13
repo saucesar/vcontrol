@@ -22,10 +22,16 @@
                             title="Gráfico de evolução.">
                         <i class="ni ni-chart-bar-32"></i>
                     </button>
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalEditDate{{ $date->id }}"
-                            title="Editar categoria." @if(!auth()->user()->isOwner()) disabled @endif >
-                        <i class="fas fa-pen"></i>
+                    <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalAddAmount{{ $date->id }}"
+                            title="Editar categoria.">
+                            <i class="fas fa-plus-circle"></i>
                     </button>
+
+                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalDecreaseAmount{{ $date->id }}"
+                            title="Editar categoria.">
+                        <i class="fas fa-minus-circle"></i>
+                    </button>
+
                     <form action="{{ route('dates.destroy', $date->id) }}" method="post">
                         @csrf
                         @method('delete')
@@ -36,7 +42,8 @@
                     </form>
                 </div>
             </td>
-            @include('dates.edit_modal', ['modalId' => "modalEditDate$date->id", 'date' => $date])
+            @include('dates.add_amount_modal', ['modalId' => "modalAddAmount$date->id", 'date' => $date])
+            @include('dates.decrease_amount_modal', ['modalId' => "modalDecreaseAmount$date->id", 'date' => $date])
             @include('dates.graphic_modal', ['modalId' => "modalGraficDate$date->id", 'chartId' => "chartDate$date->id"])
             @endif
         </tr>
