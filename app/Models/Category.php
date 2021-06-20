@@ -27,6 +27,15 @@ class Category extends Model
         return $this->belongsToMany(Email::class, 'category_emails');
     }
 
+    public function containsEmail(int $emailId)
+    {
+        foreach($this->emails as $email) {
+            if($email->id == $emailId) { return true; }
+        }
+
+        return false;
+    }
+
     public static function byCompany(int $companyId, int $perPage = 0)
     {
         $categories = Category::where('company_id', $companyId);
