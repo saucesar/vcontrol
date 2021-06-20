@@ -17,8 +17,8 @@
         @foreach($emails as $mail)
         <div class="row">
             <div class="col-2 text-center">
-                <input class="@error('emails') is-invalid @enderror" type="checkbox" name="emails[]" id="email{{ $mail->id }}" value="{{ $mail->id }}" 
-                       @if(in_array($mail->id, $categoryEmails ?? old('emails') ?? []))) checked @endif>
+                <input class="@error('emails') is-invalid @enderror" type="checkbox" name="emails[]" id="email{{ $mail->id }}" value="{{ $mail->id }}"
+                       @if(isset($category) && $category->containsEmail($mail->id)) checked @endif>
             </div>
             <div class="col-5">
                 {{ $mail->name }}
