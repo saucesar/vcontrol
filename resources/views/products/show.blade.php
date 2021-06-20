@@ -3,11 +3,7 @@
 @section('content')
     @include('products.header', ['product' => $product])
     <div class="container-fluid mt--7 card card-body bg-secondary">
-        <div class="row">
-            <div class="col-xl-12 mb-5 mb-xl-0">
-                @include('products.stats')
-            </div>
-        </div>
+        @include('products.stats')
         <div class="d-flex justify-content-center">
             @include('components.alerts.error')
             @include('components.alerts.success')

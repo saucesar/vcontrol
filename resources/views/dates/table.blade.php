@@ -23,12 +23,12 @@
                         <i class="ni ni-chart-bar-32"></i>
                     </button>
                     <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalAddAmount{{ $date->id }}"
-                            title="Editar categoria.">
+                            title="Adicionar estoque.">
                             <i class="fas fa-plus-circle"></i>
                     </button>
 
                     <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalDecreaseAmount{{ $date->id }}"
-                            title="Editar categoria.">
+                            title="Diminuir estoque.">
                         <i class="fas fa-minus-circle"></i>
                     </button>
 
@@ -45,6 +45,7 @@
             @include('dates.add_amount_modal', ['modalId' => "modalAddAmount$date->id", 'date' => $date])
             @include('dates.decrease_amount_modal', ['modalId' => "modalDecreaseAmount$date->id", 'date' => $date])
             @include('dates.graphic_modal', ['modalId' => "modalGraficDate$date->id", 'chartId' => "chartDate$date->id"])
+            @else
             @endif
         </tr>
         @endforeach
