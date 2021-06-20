@@ -22,10 +22,11 @@ class Company extends Model
         return $this->hasMany(Product::class, 'company_id', 'id');
     }
 
-    public function productsWithPaginate(int $perPage = 5)
+    public function productsWithPaginate(int $perPage = 5, bool $withDates = false)
     {
         $products = Product::where('company_id', $this->id);
-
+        !$withDates ? : $products->with('dates');
+        
         return $perPage > 0 ? $products->paginate($perPage) : $products->paginate(5);
     }
 
