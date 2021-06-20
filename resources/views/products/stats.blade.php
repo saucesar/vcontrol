@@ -23,8 +23,9 @@
     </div>-->
     <div class="col-xl-3 col-lg-6">
         <div class="card card-stats mb-4 mb-xl-0">
-            <img src="{{ $product->getEanImgUrl() }}" alt="Barcode {{ $product->ean }}"/>
-            <div class="card-body"></div>
+            <div class="card-body">
+                <img src="{{ $product->getEanImgUrl() }}" class="img-fluid" alt="Barcode {{ $product->ean }}"/>
+            </div>
         </div>
     </div>
     <div class="col">

@@ -14,11 +14,15 @@
                             {{ $product->ean }}
                         </span>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col">
-                        <span class="font-weight-bold mb-0" title="Categoria">
-                            <i class="ni ni-books"></i>
-                            {{ $product->category->name }}
-                        </span>
+                        <a href="{{ route('categories.show', $product->category->id) }}">
+                            <span class="font-weight-bold mb-0" title="Categoria">
+                                <i class="ni ni-books"></i>
+                                {{ $product->category->name }}
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>
