@@ -36,7 +36,7 @@ class Product extends Model
     public function getEanImgUrl()
     {
         $url = "https://www.cognex.com/api/Sitecore/Barcode";
-        return "$url/Get?data=$this->ean&code=S_EAN13&width=250&imageType=JPG&foreColor=%23000000&backColor=%23FFFFFF&rotation=RotateNoneFlipNone";
+        return "$url/Get?data=$this->ean&code=S_EAN13&width=1200&imageType=JPG&foreColor=%23000000&backColor=%23FFFFFF&rotation=RotateNoneFlipNone";
     }
 
     public static function byCompany(int $companyId, int $perPage = 0)
