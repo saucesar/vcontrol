@@ -22,6 +22,13 @@ class Company extends Model
         return $this->hasMany(Product::class, 'company_id', 'id');
     }
 
+    public function productsWithPaginate(int $perPage = 5)
+    {
+        $products = Product::where('company_id', $this->id);
+
+        return $perPage > 0 ? $products->paginate($perPage) : $products->paginate(5);
+    }
+
     public function categories()
     {
         return $this->hasMany(Category::class, 'company_id', 'id');
