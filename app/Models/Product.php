@@ -33,6 +33,12 @@ class Product extends Model
         return $perPage > 0 ? $historic->paginate($perPage) : $historic->get();
     }
 
+    public function getEanImgUrl()
+    {
+        $url = "https://www.cognex.com/api/Sitecore/Barcode";
+        return "$url/Get?data=$this->ean&code=S_EAN13&width=250&imageType=JPG&foreColor=%23000000&backColor=%23FFFFFF&rotation=RotateNoneFlipNone";
+    }
+
     public static function byCompany(int $companyId, int $perPage = 0)
     {
         $products = Product::where('company_id', $companyId);
