@@ -11,9 +11,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $products = auth('api')->user()->company->productsWithPaginate(10);
-
-            return response()->json(['products' => ProductResource::collection($products)]);    
+            $products = auth('api')->user()->company->productsWithPaginate(10, true);
+            
+            return response()->json(['products' => $products]);    
         } catch(\Throwable $e) {
             return response()->json(['msg' => $e->getMessage()], 404);
         }
