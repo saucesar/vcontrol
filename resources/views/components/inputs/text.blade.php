@@ -9,7 +9,7 @@
 </div>
 @else
 <input type="{{ $type ?? 'text' }}" id="{{ $name }}" class="form-control @error($name) is-invalid @enderror" name="{{ $name }}"
-       value="{{ $value ?? old($name) }}" {{ isset($readonly) ? 'readonly' : '' }} required>
+       value="{{ $value ?? old($name) }}" {{ isset($readonly) ? 'readonly' : '' }} @if(isset($min)) min="{{ $min }}" @endif required>
 @endif
 @error($name)
 <small class="text-danger">{{ $message }}</small>
