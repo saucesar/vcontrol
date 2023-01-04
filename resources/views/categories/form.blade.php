@@ -8,8 +8,9 @@
         @error('emails')
         <span class="text-danger">{{ $message }}</span>
         @enderror
+        <h3 class="text-center">Lista de Emails</h3>
         <div class="row">
-            <div class="col-2 text-center">Incluir?</div>
+            <div class="col-2 text-center"></div>
             <div class="col-5">Nome</div>
             <div class="col">Email</div>
         </div>

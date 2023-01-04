@@ -11,7 +11,7 @@ class Date extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['date', 'amount', 'lote', 'product_id', 'previous_id'];
+    protected $fillable = ['date', 'amount', 'lote', 'value', 'product_id', 'previous_id'];
 
     public function date()
     {

@@ -7,6 +7,7 @@ use App\Http\Requests\Products\UpdateProduct;
 use App\Http\Requests\SearchRequest;
 use App\Models\Date;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,10 +27,9 @@ class ProductController extends Controller
 
     public function store(StoreProduct $request)
     {
-        $data = $request->only(['ean', 'description', 'category_id']);
-        $data['company_id'] = auth()->user()->company->id;
+        $data = $request->only(['ean', 'description', 'value', 'category_id']);
 
-        $product = Product::create($data);
+        $product = auth()->user()->company->products()->create($data);
         if(isset($product)) {
             return back()->with('success', 'Produto adicionado!');
         } else {
@@ -56,13 +56,13 @@ class ProductController extends Controller
 
     public function update(UpdateProduct $request, $id)
     {
-        $product = Product::find($id);
-        
-        if(isset($product)) {
+        try{
+            $product = Product::findOrFail($id);
             $product->update($request->only('ean', 'description', 'category_id'));
+        
             return back()->with('success', 'Produto atualizado!');
-        } else {
-            return back()->with('error', 'Produto não encotrado!');
+        } catch(Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 

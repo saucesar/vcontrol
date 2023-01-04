@@ -7,13 +7,16 @@ use App\Http\Requests\Dates\StoreDate;
 use App\Http\Requests\Dates\UpdateDate;
 use App\Models\Date;
 use App\Models\InventoryMovement;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class DateController extends Controller
 {
     public function store(StoreDate $request)
     {
-        $date = Date::create($request->only(['date', 'lote', 'amount', 'product_id', 'value']));
+        $data = $request->only(['date', 'lote', 'amount', 'product_id']);
+        $data['value'] = Product::findOrFail($request->product_id)->value;
+        $date = Date::create($data);
 
         if(isset($date)) {
             return back()->with('success', 'Data adicionada!');

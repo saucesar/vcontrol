@@ -1,11 +1,14 @@
 <div class="row mb-4">
     <div class="col">
-        @include('components.inputs.text', ['name' => 'description', 'label' => 'Descrição', 'value' => $description ?? ''])
+        @include('components.inputs.text', ['name' => 'description', 'label' => 'Descrição', 'value' => $product->description ?? null])
     </div>
 </div>
 <div class="row mb-4">
     <div class="col">
-        @include('components.inputs.text', ['name' => 'ean', 'label' => 'Código Barra',  'value' => $ean ?? ''])
+        @include('components.inputs.text', ['name' => 'ean', 'label' => 'Código Barra',  'value' => $product->ean ?? null])
+    </div>
+    <div class="col">
+        @include('components.inputs.float', ['name' => 'value', 'label' => 'Valor',  'value' => $product->value ?? null])
     </div>
 </div>
 <div class="row mb-4">
@@ -14,7 +17,9 @@
         <select class="form-control" name="category_id" required>
             <option value="">Selecione</option>
             @foreach($categories as $category)
-            <option value="{{ $category->id }}" {{ !(isset($categoryId) && $categoryId == $category->id) ? : 'selected' }}>{{ $category->name }}</option>
+            <option value="{{ $category->id }}" @if(isset($product) && $product->category->id == $category->id || old('category_id') == $category->id) selected @endif>
+                {{ $category->name }}
+            </option>
             @endforeach
         </select>
     </div>
