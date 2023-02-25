@@ -11,7 +11,8 @@ class CreateReasonsTable extends Migration
         Schema::create('reasons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('company_id', false, true)->foreign('company_id')->references('id')->on('companies');
+            $table->integer('company_id', false, true);
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->softDeletes();
             $table->timestamps();
         });

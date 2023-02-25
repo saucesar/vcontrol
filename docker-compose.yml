@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
     networks:
       - vcontrol_network
   server:
@@ -19,7 +19,7 @@ services:
       dockerfile: ./docker/Dockerfile
     restart: on-failure
     ports:
-      - "8000:80"
+      - "9000:80"
     volumes:
       - .:/var/www/html
     networks:
