@@ -13,8 +13,13 @@ class CreateProductsTable extends Migration
             $table->string('ean')->unique();
             $table->string('description');
             $table->unsignedDouble('value');
-            $table->integer('company_id', false, true)->foreign('company_id')->references('id')->on('companies');
-            $table->integer('category_id', false, true)->foreign('category_id')->references('id')->on('categories');
+            
+            $table->integer('company_id', false, true);
+            $table->foreign('company_id')->references('id')->on('companies');
+
+            $table->integer('category_id', false, true);
+            $table->foreign('category_id')->references('id')->on('categories');
+
             $table->softDeletes();
             $table->timestamps();
         });

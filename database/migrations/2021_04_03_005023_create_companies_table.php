@@ -12,7 +12,8 @@ class CreateCompaniesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('cnpj')->unique();
-            $table->integer('owner_id', false, true)->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('owner_id', false, true);
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

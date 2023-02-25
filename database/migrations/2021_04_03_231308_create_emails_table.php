@@ -12,7 +12,8 @@ class CreateEmailsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('company_id', false, true)->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->integer('company_id', false, true);
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });
