@@ -9,8 +9,6 @@ class CreateCategoryEmailsTable extends Migration
     public function up()
     {
         Schema::create('category_emails', function (Blueprint $table) {
-            $table->id();
-            
             $table->integer('category_id', false, true);
             $table->foreign('category_id')->references('id')->on('categories');
 
