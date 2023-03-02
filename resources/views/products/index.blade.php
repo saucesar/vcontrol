@@ -6,7 +6,6 @@
         <div class="row">
             <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="row">
-                    <div class="col"></div>
                     <div class="col">
                         @include('products.info')
                     </div>
@@ -32,9 +31,11 @@
                     @include('components.search_form', ['route' => route('products.search')])
                     </div>
                 </div>
-                <div class="card-deck">
+                <div class="row">
                 @foreach($products as $product)
-                    @include('products.card', ['product' => $product])
+                    <div class="col-6">
+                        @include('products.card', ['product' => $product])
+                    </div>
                 @endforeach
                 </div>
                 <div class="d-flex justify-content-start">
