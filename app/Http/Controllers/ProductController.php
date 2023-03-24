@@ -6,20 +6,35 @@ use App\Http\Requests\Products\StoreProduct;
 use App\Http\Requests\Products\UpdateProduct;
 use App\Http\Requests\SearchRequest;
 use App\Models\Date;
-use App\Models\Product;
+use App\Repositories\CategoryRepository;
+use App\Repositories\ProductRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
+    private ProductRepository $productRepository;
+    private CategoryRepository $categoryRepository;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+    )
+    {
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     public function index(Request $request)
     {
         !$request->perPage ? : session()->put('products.perPage', $request->perPage);
         $perPage = session('products.perPage', 4);
+        $companyId = auth()->user()->company->id;
         
         $data = [
-            'products' => Product::byCompany(auth()->user()->company->id, $perPage),
-            'categories' => auth()->user()->company->categories,
+            'products' => $this->productRepository->byCompany($companyId, $perPage),
+            'categories' => $this->categoryRepository->byCompany($companyId),
         ];
 
         return view('products.index', $data);
@@ -39,17 +54,18 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
+        try {
+            $product = $this->productRepository->byId($id);
 
-        if(isset($product)) {
             $data = [
                 'product' => $product,
-                'categories' => auth()->user()->company->categories,
+                'categories' => $this->categoryRepository->byCompany(auth()->user()->company->id),
                 'graphicData' => $this->getGraphicData($product),
             ];
     
             return view('products.show', $data);
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}");
             return back()->with('error', 'Produto não encotrado!');
         }
     }
@@ -57,23 +73,21 @@ class ProductController extends Controller
     public function update(UpdateProduct $request, $id)
     {
         try{
-            $product = Product::findOrFail($id);
-            $product->update($request->only('ean', 'description', 'category_id'));
-        
+            $this->productRepository->update($id, $request->only('ean', 'description', 'category_id'));
             return back()->with('success', 'Produto atualizado!');
         } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}");
             return back()->with('error', $e->getMessage());
         }
     }
 
     public function destroy($id)
     {
-        $product = Product::find($id);
-
-        if(isset($product)) {
-            $product->delete();
+        try {
+            $this->productRepository->destroy($id);
             return redirect()->route('products.index')->with('success', 'Produto deletado!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}");
             return back()->with('error', 'Produto não encotrado!');
         }
     }
@@ -99,8 +113,8 @@ class ProductController extends Controller
         $perPage = session('products.perPage', 4);
         
         $data = [
-            'products' => Product::search($request->search, auth()->user()->company->id, $perPage),
-            'categories' => auth()->user()->company->categories,
+            'products' => $this->productRepository->search($request->search, auth()->user()->company->id, $perPage),
+            'categories' => $this->categoryRepository->byCompany(auth()->user()->company->id),
         ];
 
         return view('products.index', $data);

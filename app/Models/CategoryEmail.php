@@ -10,6 +10,9 @@ class CategoryEmail extends Model
     use HasFactory;
 
     protected $fillable = ['category_id', 'email_id'];
+    protected $primaryKey = 'category_id';
+    
+    public $incrementing = false;
 
     public function category()
     {

@@ -6,22 +6,39 @@ use App\Http\Requests\Categories\StoreCategory;
 use App\Http\Requests\Categories\UpdateCategory;
 use App\Http\Requests\SearchRequest;
 use App\Models\Category;
-use App\Models\CategoryEmail;
-use App\Models\Email;
-use App\Models\Product;
+use App\Repositories\CategoryRepository;
+use App\Repositories\EmailRepository;
+use App\Repositories\ProductRepository;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
+    private CategoryRepository $categoryRepository;
+    private EmailRepository $emailRepository;
+    private ProductRepository $productRepository;
+
+    public function __construct(
+        CategoryRepository $categoryRepository,
+        EmailRepository $emailRepository,
+        ProductRepository $productRepository,
+    )
+    {
+        $this->categoryRepository = $categoryRepository;
+        $this->emailRepository = $emailRepository;
+        $this->productRepository = $productRepository;
+    }
+
     public function index(Request $request)
     {
         !$request->perPage ? : session()->put('categories.perPage', $request->perPage);
-        $perPage = session('categories.perPage', 5);
+        $perPage = session('categories.perPage', 4);
+        $companyId = auth()->user()->company->id;
         
         $data = [
-            'categories' => Category::byCompany(auth()->user()->company->id, $perPage),
-            'emails' => Email::byCompany(auth()->user()->company->id),
+            'categories' => $this->categoryRepository->byCompany($companyId, $perPage),
+            'emails' => $this->emailRepository->byCompany($companyId),
         ];
 
         return view('categories.index', $data);
@@ -29,85 +46,82 @@ class CategoryController extends Controller
 
     public function store(StoreCategory $request)
     {
-        $data = $request->only('name');
-        $data['company_id'] = auth()->user()->company->id;
+        try{
+            $data = $request->only('name');
+            $data['company_id'] = auth()->user()->company->id;
 
-        $category = Category::create($data);
-
-        if(isset($category)) {
-            $this->saveEmails($request, $category);
-            
+            $category = $this->categoryRepository->store($data);
+            $this->saveEmails($request->emails, $category);
+                
             return back()->with('success', 'Categoria adicionada!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Falha ao criar categoria!');
         }
     }
 
     public function show(Request $request, $id)
     {
-        $category = Category::find($id);
+        try {
+            !$request->perPage ? : session()->put('products.perPage', $request->perPage);
+            $perPage = session('products.perPage', 4);
 
-        !$request->perPage ? : session()->put('products.perPage', $request->perPage);
-        $perPage = session('products.perPage', 4);
-
-        if(isset($category)) {
             $data = [
-                'category' => $category,
-                'products' => Product::byCategory($id, $perPage),
-                'emails' => Email::byCompany(auth()->user()->company->id),
+                'category' => $this->categoryRepository->byId($id),
+                'products' => $this->productRepository->byCategory($id, $perPage),
+                'emails' => $this->emailRepository->byCompany(auth()->user()->company->id),
             ];
+
             return view('categories.show', $data);
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Categoria não encontrada!');
         }
     }
 
     public function update(UpdateCategory $request, $id)
     {
-        $category = Category::find($id);
-
-        if(isset($category)) {
-            $this->saveEmails($request, $category);
-            $category->update($request->only('name'));
+        try{
+            $category = $this->categoryRepository->update($id, $request->only('name'));
+            $this->saveEmails($request->emails, $category);
+            
             return back()->with('success', 'Categoria atualizada!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Categoria não encontrada!');
         }
     }
 
-    public function destroy(Request $request,$id)
+    public function destroy(Request $request, $id)
     {
-        $category = Category::find($id);
-
-        if(isset($category)) {
-            $category->delete();
+        try{
+            $this->categoryRepository->destroy($id);
             
             if(isset($request->redirect)) {
                 return redirect()->route($request->redirect)->with('success', 'Categoria deletada!');
-            } else {
-                return back()->with('success', 'Categoria deletada!');
             }
-        } else {
+
+            return back()->with('success', 'Categoria deletada!');
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Categoria não encontrada!');
         }
     }
 
-    private function saveEmails($request, $category)
+    private function saveEmails(array $emailIds, Category $category)
     {
-        DB::table('category_emails')->where('category_id', '=', $category->id)->delete();
-
-        foreach($request->emails as $emailId) {
-            CategoryEmail::create(['category_id' => $category->id, 'email_id' => $emailId]);
-        }
+        $this->emailRepository->disassossiateAllEmails($category->id);
+        $this->emailRepository->assossiateEmails($emailIds, $category->id);
     }
 
     public function search(SearchRequest $request)
     {
-        $perPage = session('categories.perPage', 5);
-        //dd($request->all());
+        $perPage = session('categories.perPage', 4);
+        $companyId = auth()->user()->company->id;
+        
         $data = [
-            'categories' => Category::search($request->search, auth()->user()->company->id, $perPage),
-            'emails' => Email::byCompany(auth()->user()->company->id),
+            'categories' => $this->categoryRepository->search($request->search, $companyId, $perPage),
+            'emails' => $this->emailRepository->byCompany($companyId),
         ];
 
         return view('categories.index', $data);

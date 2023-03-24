@@ -5,18 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Emails\StoreEmail;
 use App\Http\Requests\Emails\UpdateEmail;
 use App\Http\Requests\SearchRequest;
-use App\Models\Email;
+use App\Repositories\EmailRepository;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmailController extends Controller
 {
+    private EmailRepository $emailRepository;
+
+    public function __construct(
+        EmailRepository $emailRepository,
+    )
+    {
+        $this->emailRepository = $emailRepository;
+    }
+
     public function index(Request $request)
     {
         !$request->perPage ? : session()->put('email.perPage', $request->perPage);
         $perPage = session('email.perPage', 5);
         
         $data = [
-            'emails' => Email::byCompany(auth()->user()->company->id, $perPage),
+            'emails' => $this->emailRepository->byCompany(auth()->user()->company->id, $perPage),
         ];
 
         return view('emails.index', $data);
@@ -24,38 +35,38 @@ class EmailController extends Controller
 
     public function store(StoreEmail $request)
     {
-        $data = $request->only(['name', 'email']);
-        $data['company_id'] = auth()->user()->company->id;
-
-        $email = Email::create($data);
-
-        if(isset($email)) {
+        try {
+            $data = $request->only(['name', 'email']);
+            $data['company_id'] = auth()->user()->company->id;
+            $this->emailRepository->store($data);
+    
             return back()->with('success', 'Email adicionado!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Falhas ao adicionar email!');
         }
     }
 
     public function update(UpdateEmail $request, $id)
     {
-        $email = Email::find($id);
+        try {
+            $this->emailRepository->update($id, $request->only('name', 'email'));
 
-        if(isset($email)) {
-            $email->update($request->only('name', 'email'));
             return back()->with('success', 'Email atualizado!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}", ['request' => $request->all()]);
             return back()->with('error', 'Email não econtrado!');
         }
     }
 
     public function destroy($id)
     {
-        $email = Email::find($id);
+        try {
+            $this->emailRepository->destroy($id);
 
-        if(isset($email)) {
-            $email->delete();
             return back()->with('emails.index')->with('success', 'Email deletado!');
-        } else {
+        } catch(Exception $e) {
+            Log::error("Exception: ".(get_class($e)).": {$e->getMessage()}");
             return back()->with('error', 'Email não econtrado!');
         }
     }
@@ -65,7 +76,7 @@ class EmailController extends Controller
         $perPage = session('email.perPage', 5);
 
         $data = [
-            'emails' => Email::search($request->search, auth()->user()->company->id, $perPage),
+            'emails' => $this->emailRepository->search($request->search, auth()->user()->company->id, $perPage),
         ];
         
         return view('emails.index', $data);
