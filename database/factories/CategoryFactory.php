@@ -12,7 +12,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->text(20),
+            'name' => $this->faker->text(30),
             'company_id' => $this->faker->numberBetween(1, \App\Models\Company::count()),
         ];
     }
