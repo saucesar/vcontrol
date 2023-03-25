@@ -14,7 +14,7 @@ class CreateDatesTable extends Migration
             $table->integer('amount', false, true);
             $table->unsignedDouble('value');
             $table->string('lote')->nullable();
-            $table->integer('product_id', false, true);
+            $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->softDeletes();
             $table->timestamps();

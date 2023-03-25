@@ -10,14 +10,14 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('ean')->unique();
+            $table->string('ean');
             $table->string('description');
             $table->unsignedDouble('value');
             
-            $table->integer('company_id', false, true);
+            $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
 
-            $table->integer('category_id', false, true);
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
 
             $table->softDeletes();

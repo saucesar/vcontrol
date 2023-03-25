@@ -11,12 +11,12 @@ class CreateInventoryMovementsTable extends Migration
         Schema::create('inventory_movements', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['in', 'out']);
-            $table->integer('amount', false, true);
+            $table->unsignedInteger('amount');
             
-            $table->integer('date_id', false, true);
+            $table->unsignedBigInteger('date_id');
             $table->foreign('date_id')->references('id')->on('dates');
 
-            $table->integer('reason_id', false, true);
+            $table->unsignedBigInteger('reason_id');
             $table->foreign('reason_id')->references('id')->on('reasons');
             $table->timestamps();
         });
