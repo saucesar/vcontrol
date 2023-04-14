@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Company\StoreCompany;
+use App\Models\Company;
+use Exception;
 
 class CompanyController extends Controller
 {
     public function index()
     {
-        return view('company.index');
+        return view('company.index', [
+            'companies' => Auth::user()->companies,
+        ]);
     }
 
     /**
@@ -27,9 +33,11 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCompany $request)
     {
-        //
+        $request->merge(['owner_id' => Auth::user()->id]);
+        Company::create($request->all());
+        return redirect()->route('company.index')->with('success', 'Empresa criada!');
     }
 
     /**
@@ -74,6 +82,12 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            Company::findOrFail($id)->delete();
+            
+            return redirect()->route('company.index')->with('success', 'Empresa removida!');
+        } catch(Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }

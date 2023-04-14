@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="header-body">
             <div class="text-center">
-                <h2>{{ auth()->user()->company->name }}</h2>
+                <h2>{{ $company->name ?? '' }}</h2>
             </div>
         </div>
     </div>
