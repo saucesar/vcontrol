@@ -25,9 +25,11 @@ class EmailController extends Controller
     {
         !$request->perPage ? : session()->put('email.perPage', $request->perPage);
         $perPage = session('email.perPage', 5);
+        $company = $this->getCompanyInSession();
         
         $data = [
-            'emails' => $this->emailRepository->byCompany(auth()->user()->company->id, $perPage),
+            'emails' => $this->emailRepository->byCompany($company->id, $perPage),
+            'company' => $company,
         ];
 
         return view('emails.index', $data);
@@ -36,8 +38,9 @@ class EmailController extends Controller
     public function store(StoreEmail $request)
     {
         try {
+            $company = $this->getCompanyInSession();
             $data = $request->only(['name', 'email']);
-            $data['company_id'] = auth()->user()->company->id;
+            $data['company_id'] = $company->id;
             $this->emailRepository->store($data);
     
             return back()->with('success', 'Email adicionado!');
@@ -74,9 +77,11 @@ class EmailController extends Controller
     public function search(SearchRequest $request)
     {
         $perPage = session('email.perPage', 5);
+        $company = $this->getCompanyInSession();
 
         $data = [
-            'emails' => $this->emailRepository->search($request->search, auth()->user()->company->id, $perPage),
+            'emails' => $this->emailRepository->search($request->search, $company->id, $perPage),
+            'company' => $company,
         ];
         
         return view('emails.index', $data);
