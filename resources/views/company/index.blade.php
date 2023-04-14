@@ -32,7 +32,7 @@
                 @foreach ($companies as $company)
                     <tr>
                         <td>{{ $company->id }}</td>
-                        <td>{{ $company->cnpj }}</td>
+                        <td>{{ StringMask::cnpj($company->cnpj) }}</td>
                         <td>{{ $company->name }}</td>
                         <td>
                             <div class="d-inline-flex justify-content-center align-items-center"
