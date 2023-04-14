@@ -28,7 +28,21 @@ services:
     depends_on:
       - db
       - redis
-  
+      
+  init:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    command: php artisan migrate --seed
+    restart: on-failure
+    volumes:
+      - .:/var/www/html
+    networks:
+      - vcontrol_network
+    depends_on:
+      - db
+      - redis
+
   redis:
     image: redis:7-alpine
     restart: on-failure
