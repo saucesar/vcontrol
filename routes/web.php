@@ -27,7 +27,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-	Route::resource('company', CompanyController::class);
+	Route::resource('company', CompanyController::class)->except(['create', 'edit']);
+	Route::post('company/select', [CompanyController::class, 'selectCompany'])->name('company.select');
 	
 	Route::resource('products', ProductController::class)->except(['create', 'edit']);
 	Route::prefix('products')->group(function(){

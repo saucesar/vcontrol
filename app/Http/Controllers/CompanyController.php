@@ -17,6 +17,14 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function selectCompany(Request $request)
+    {
+        $company = Company::find($request->company_id);
+        $this->setCompanyInSession($company);
+
+        return redirect()->back()->with('success', "Você selecionou a empresa {$company->name}");
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -36,7 +44,10 @@ class CompanyController extends Controller
     public function store(StoreCompany $request)
     {
         $request->merge(['owner_id' => Auth::user()->id]);
-        Company::create($request->all());
+        $data = $request->all();
+        $data['cnpj'] = str_replace(['.', '-', '/'], '', $data['cnpj']);
+        
+        Company::create($data);
         return redirect()->route('company.index')->with('success', 'Empresa criada!');
     }
 

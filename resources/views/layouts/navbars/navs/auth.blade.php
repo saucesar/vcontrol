@@ -3,6 +3,15 @@
     <div class="container-fluid">
         <!-- Brand -->
         <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+        <form class="navbar-search form-inline mr-3 d-none d-md-flex ml-lg-auto" action="{{ route('company.select') }}" method="post">
+            @csrf
+            <select class="form-control" name="company_id">
+                @foreach (auth()->user()->companies as $company)
+                <option value="{{ $company->id }}" @if(UserSession::getCompany()->id == $company->id) selected @endif >{{ $company->name }}</option>
+                @endforeach
+            </select>
+            <button class="btn btn-success ml-1" type="submit">OK</button>
+        </form>
         <!-- Form -->
         <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
             <div class="form-group mb-0">

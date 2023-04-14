@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'ExistsCompany' => App\Helpers\ExistsCompany::class,
         'StringMask' => \App\Helpers\StringMask::class,
+        'UserSession' => \App\Helpers\UserSession::class,
     ],
 
 ];
