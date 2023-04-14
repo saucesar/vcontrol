@@ -74,3 +74,12 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script type="text/javascript">
+    var openModal = "{{ old('modalName') }}";
+    if (openModal) {
+        $(`#${openModal}`).modal()
+    }
+</script>
+@endpush
