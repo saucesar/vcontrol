@@ -48,13 +48,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function isOwner()
     {
-        $company = $this->company;
-        return isset($company) && $company->owner->id == $this->id;
+        return $this->type == 'owner';
     }
 
-    public function company()
+    public function companies()
     {
-        return $this->hasOne(Company::class, 'id', 'company_id');
+        return $this->hasMany(Company::class, 'owner_id', 'id');
     }
 
     public function getJWTIdentifier()
