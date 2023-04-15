@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Emails;
 
+use App\Helpers\UserSession;
+use App\Rules\UniqueEmailRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEmail extends FormRequest
@@ -13,9 +15,10 @@ class StoreEmail extends FormRequest
 
     public function rules()
     {
+        $company = UserSession::getCompany();
         return [
-            'name' => 'required|min:5',
-            'email' => 'required|email:rfc|unique:emails',
+            'name' => ['required', 'min:5'],
+            'email' => ['required', 'email:rfc', new UniqueEmailRule($company->id)],
         ];
     }
 }
