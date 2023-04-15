@@ -18,4 +18,12 @@ class StoreCategory extends FormRequest
             'emails' => 'required|array|min:1',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'emails.required' => 'Selecione pelo menos 1 email',
+            'emails.min' => 'Selecione pelo menos 1 email',
+        ];
+    }
 }
