@@ -124,7 +124,7 @@
                 <li class="nav-item {{ !($active == 'company') ? : 'active' }}">
                     <a class="nav-link" href="{{ route('company.index') }}">
                         <i class="ni ni-building"></i>
-                        {{ __('Empresa') }}
+                        {{ __('Empresas') }}
                     </a>
                 </li>
                 <li class="nav-item {{ !($active == 'emails') ? : 'active' }}">
