@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use Carbon\Carbon;
 
 class ProductRepository extends BaseRepository
 {
@@ -46,5 +47,22 @@ class ProductRepository extends BaseRepository
                            ->orWhere('ean', 'ilike', "%$search%")
                            ->where('company_id', $companyId);
         return $perPage > 0 ? $products->paginate($perPage)->appends(['search' => $search]) : $products->get();
+    }
+
+    public function getProductsByDate(Carbon $date, ?int $companyId = null)
+    {
+        $today = Carbon::now();
+        $query = Product::join('dates', 'dates.product_id', '=', 'products.id')
+                      ->where('dates.date', '>=', $today)
+                      ->where('dates.date', '<=', $date)
+                      ->select('products.*', 'dates.date as date', 'dates.amount as amount')
+                      #->distinct('products.id')
+                      ->groupBy('products.id', 'date', 'amount')
+                      ->orderBy('date');
+        if($companyId) {
+            $query = $query->where('products.company_id', $companyId);
+        }
+
+        return $query->get();
     }
 }
