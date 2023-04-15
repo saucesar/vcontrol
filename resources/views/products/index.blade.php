@@ -5,15 +5,12 @@
     <div class="container-fluid mt--7 card card-body bg-secondary">
         <div class="row">
             <div class="col-xl-12 mb-5 mb-xl-0">
-                <div class="row">
-                    <div class="col">
-                        @include('products.info')
-                    </div>
-                    <div class="col"></div>
-                </div>
                 <div class="d-flex justify-content-center">
                     @include('components.alerts.error')
                     @include('components.alerts.success')
+                </div>
+                <div>
+                    @include('products.info')
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                     <div>{{ $products->links() }}</div>
