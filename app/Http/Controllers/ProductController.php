@@ -30,11 +30,12 @@ class ProductController extends Controller
     {
         !$request->perPage ? : session()->put('products.perPage', $request->perPage);
         $perPage = session('products.perPage', 4);
-        $companyId = auth()->user()->company->id;
+        $company = $this->getCompanyInSession();
         
         $data = [
-            'products' => $this->productRepository->byCompany($companyId, $perPage),
-            'categories' => $this->categoryRepository->byCompany($companyId),
+            'products' => $this->productRepository->byCompany($company->id, $perPage),
+            'categories' => $this->categoryRepository->byCompany($company->id),
+            'company' => $company,
         ];
 
         return view('products.index', $data);
@@ -43,8 +44,9 @@ class ProductController extends Controller
     public function store(StoreProduct $request)
     {
         $data = $request->only(['ean', 'description', 'value', 'category_id']);
+        $company = $this->getCompanyInSession();
 
-        $product = auth()->user()->company->products()->create($data);
+        $product = $company->products()->create($data);
         if(isset($product)) {
             return back()->with('success', 'Produto adicionado!');
         } else {
@@ -56,11 +58,17 @@ class ProductController extends Controller
     {
         try {
             $product = $this->productRepository->byId($id);
+            $company = $this->getCompanyInSession();
 
+            if($company->id != $product->company_id) {
+                return redirect()->route('products.index');
+            }
+            
             $data = [
                 'product' => $product,
-                'categories' => $this->categoryRepository->byCompany(auth()->user()->company->id),
+                'categories' => $this->categoryRepository->byCompany($company->id),
                 'graphicData' => $this->getGraphicData($product),
+                'company' => $company,
             ];
     
             return view('products.show', $data);
@@ -111,10 +119,11 @@ class ProductController extends Controller
     public function search(SearchRequest $request)
     {
         $perPage = session('products.perPage', 4);
+        $company = $this->getCompanyInSession();
         
         $data = [
-            'products' => $this->productRepository->search($request->search, auth()->user()->company->id, $perPage),
-            'categories' => $this->categoryRepository->byCompany(auth()->user()->company->id),
+            'products' => $this->productRepository->search($request->input('search', ''), $company->id, $perPage),
+            'categories' => $this->categoryRepository->byCompany($company->id),
         ];
 
         return view('products.index', $data);

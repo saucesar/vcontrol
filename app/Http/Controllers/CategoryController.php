@@ -34,11 +34,12 @@ class CategoryController extends Controller
     {
         !$request->perPage ? : session()->put('categories.perPage', $request->perPage);
         $perPage = session('categories.perPage', 4);
-        $companyId = auth()->user()->company->id;
+        $company = $this->getCompanyInSession();
         
         $data = [
-            'categories' => $this->categoryRepository->byCompany($companyId, $perPage),
-            'emails' => $this->emailRepository->byCompany($companyId),
+            'categories' => $this->categoryRepository->byCompany($company->id, $perPage),
+            'emails' => $this->emailRepository->byCompany($company->id),
+            'company' => $company,
         ];
 
         return view('categories.index', $data);
@@ -47,8 +48,10 @@ class CategoryController extends Controller
     public function store(StoreCategory $request)
     {
         try{
+            $company = $this->getCompanyInSession();
+
             $data = $request->only('name');
-            $data['company_id'] = auth()->user()->company->id;
+            $data['company_id'] = $company->id;
 
             $category = $this->categoryRepository->store($data);
             $this->saveEmails($request->emails, $category);
@@ -65,11 +68,17 @@ class CategoryController extends Controller
         try {
             !$request->perPage ? : session()->put('products.perPage', $request->perPage);
             $perPage = session('products.perPage', 4);
+            $category = $this->categoryRepository->byId($id);
+            $company = $this->getCompanyInSession();
+
+            if($company->id != $category->company_id) {
+                return redirect()->route('categories.index');
+            }
 
             $data = [
-                'category' => $this->categoryRepository->byId($id),
+                'category' => $category,
                 'products' => $this->productRepository->byCategory($id, $perPage),
-                'emails' => $this->emailRepository->byCompany(auth()->user()->company->id),
+                'emails' => $this->emailRepository->byCompany($company->id),
             ];
 
             return view('categories.show', $data);
@@ -117,11 +126,11 @@ class CategoryController extends Controller
     public function search(SearchRequest $request)
     {
         $perPage = session('categories.perPage', 4);
-        $companyId = auth()->user()->company->id;
-        
+        $company = $this->getCompanyInSession();
+
         $data = [
-            'categories' => $this->categoryRepository->search($request->search, $companyId, $perPage),
-            'emails' => $this->emailRepository->byCompany($companyId),
+            'categories' => $this->categoryRepository->search($request->input('search', ''), $company->id, $perPage),
+            'emails' => $this->emailRepository->byCompany($company->id),
         ];
 
         return view('categories.index', $data);
