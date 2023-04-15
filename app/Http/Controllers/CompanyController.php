@@ -26,16 +26,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,8 +36,10 @@ class CompanyController extends Controller
         $request->merge(['owner_id' => Auth::user()->id]);
         $data = $request->all();
         $data['cnpj'] = str_replace(['.', '-', '/'], '', $data['cnpj']);
-        
-        Company::create($data);
+
+        $company = Company::create($data);
+        $company->reasons()->createMany([['name' => 'Venda'], ['name' => 'Vencido'], ['name' => 'Entrada'], ['name' => 'Outro']]);
+
         return redirect()->route('company.index')->with('success', 'Empresa criada!');
     }
 
@@ -62,16 +54,6 @@ class CompanyController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
