@@ -80,7 +80,7 @@ class EmailController extends Controller
         $company = $this->getCompanyInSession();
 
         $data = [
-            'emails' => $this->emailRepository->search($request->search, $company->id, $perPage),
+            'emails' => $this->emailRepository->search($request->input('search', ''), $company->id, $perPage),
             'company' => $company,
         ];
         
