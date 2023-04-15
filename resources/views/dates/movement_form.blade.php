@@ -6,7 +6,7 @@
         <label for="reason_id">Motivo</label>
         <select class="form-control" name="reason_id" id="reason_id" required>
             <option value="">Selecione</option>
-            @foreach(auth()->user()->company->reasons as $reason)
+            @foreach($company->reasons as $reason)
             <option value="{{ $reason->id }}" {{ old('reason_id') == $reason->id ? 'selected' : '' }}>{{ $reason->name }}</option>
             @endforeach
         </select>
