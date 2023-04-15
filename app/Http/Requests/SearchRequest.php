@@ -14,14 +14,7 @@ class SearchRequest extends FormRequest
     public function rules()
     {
         return [
-            'search' => 'required|string',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'search.required' => 'O campo de busca não pode ser vazio.',
+            'search' => ['nullable', 'string'],
         ];
     }
 }
