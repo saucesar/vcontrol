@@ -5,7 +5,7 @@
 </div>
 <div class="row mb-4">
     <div class="col">
-        @include('components.inputs.text', ['name' => 'ean', 'label' => 'Código Barra',  'value' => $product->ean ?? null])
+        @include('components.inputs.text', ['name' => 'ean', 'class' => 'ean', 'label' => 'Código Barra',  'value' => $product->ean ?? null])
     </div>
     <div class="col">
         @include('components.inputs.float', ['name' => 'value', 'label' => 'Valor',  'value' => $product->value ?? null])
@@ -24,3 +24,10 @@
         </select>
     </div>
 </div>
+@push('js')
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.ean').mask('0000000000000')
+});
+</script>
+@endpush
