@@ -7,16 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 
 class UniqueCnpjRule implements Rule
 {
-    private ?int $ignore_id;
+    private ?int $ignoreId;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct(?int $ignore_id = null)
+    public function __construct(?int $ignoreId = null)
     {
-        $this->ignore_id = $ignore_id;
+        $this->ignoreId = $ignoreId;
     }
 
     /**
@@ -31,8 +31,8 @@ class UniqueCnpjRule implements Rule
         $cnpj = str_replace(['.', '-', '/'], '', $value);
         $query = Company::where('cnpj', $cnpj);
 
-        if($this->ignore_id) {
-            $query = $query->where('id', '<>', $this->ignore_id);
+        if($this->ignoreId) {
+            $query = $query->where('id', '<>', $this->ignoreId);
         }
 
         return !$query->exists();
